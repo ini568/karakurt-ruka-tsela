@@ -1,0 +1,11 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Каракурт — стенд</title><link rel="stylesheet" href="../src/art/styles.css"><style>header{position:relative;z-index:10;padding:12px;background:#101522}#game-root{min-height:640px}pre{white-space:pre-wrap}</style><header><button id="advance">Симулировать 40 секунд</button><button id="narrow">Ширина 375px</button><pre id="results">Ручной стенд: начните ночь, затем ускорьте время. Сохранения изолированы в памяти.</pre></header><main id="game-root" class="game-shell"><canvas id="game-canvas" width="1280" height="720"></canvas><div id="game-hud"></div><div id="game-overlay"></div></main><script type="module">
+import {mountGame} from '../src/client/app.js';
+let callback,clock=0;
+window.requestAnimationFrame=fn=>{callback=fn;return 1;};window.cancelAnimationFrame=()=>{};
+// Do not modify the user's actual records during a test.
+const memory=new Map();Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>memory.get(k)??null,setItem:(k,v)=>memory.set(k,v)}});
+mountGame({canvas:document.querySelector('canvas'),hud:document.querySelector('#game-hud'),overlay:document.querySelector('#game-overlay')});
+callback(0);
+document.querySelector('#advance').onclick=()=>{for(let i=0;i<2400;i++)callback(clock+=1000/60);document.querySelector('#results').textContent='Сохранение стенда: '+(memory.get('karakurt.progress.v1')??'пока нет');};
+document.querySelector('#narrow').onclick=()=>{document.querySelector('#game-root').style.width='375px';callback(clock+=17);};
+</script></html>

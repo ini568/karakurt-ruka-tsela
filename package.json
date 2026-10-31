@@ -1,0 +1,11 @@
+{
+  "name": "karakurt-ruka-tsela",
+  "version": "1.0.0",
+  "private": true,
+  "description": "КАРАКУРТ: Рука цела — автономная Canvas-игра без сборки и зависимостей",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/model.test.mjs",
+    "check": "node tools/check.mjs"
+  }
+}

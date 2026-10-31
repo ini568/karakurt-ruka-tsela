@@ -1,0 +1,64 @@
+name: Publish game to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout selected revision
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare static site
+        run: node tools/prepare-pages.mjs
+
+      - name: Verify static artifact
+        run: node tests/regression/publish/artifact.mjs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Report actual deployment URL
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          if [ -z "$PAGE_URL" ]; then
+            echo "::error::GitHub Pages did not return a deployment URL. Check the deployment logs and Pages permissions."
+            exit 1
+          fi
+          printf 'Published URL: %s\n' "$PAGE_URL"
+          printf '## GitHub Pages\n\nDeployment URL: %s\n\nDeployment completed; verify this URL in a browser before submitting it.\n' "$PAGE_URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Explain failed publication
+        if: failure()
+        run: |
+          echo "::error::Publication did not finish. Inspect the first failed step. For Pages access errors, enable Settings > Pages > GitHub Actions, allow Actions, and check pages:write, id-token:write and github-pages environment deployment rules. No public URL is claimed by this run."

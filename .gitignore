@@ -1,0 +1,14 @@
+# made by Sharrowkin before the first commit: dependencies, builds and secrets stay on this computer
+node_modules/
+.venv/
+venv/
+__pycache__/
+dist/
+build/
+.next/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db

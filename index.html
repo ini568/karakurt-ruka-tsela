@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11111b">
+  <meta name="description" content="КАРАКУРТ: Рука цела — игра о выживании маленького паука в большой ночной комнате.">
+  <title>КАРАКУРТ: Рука цела</title>
+  <link rel="stylesheet" href="./src/art/styles.css">
+  <script type="module" src="./src/main.js"></script>
+</head>
+<body>
+  <main id="game-root" class="game-shell" aria-label="КАРАКУРТ: Рука цела">
+    <canvas id="game-canvas" class="game-canvas" width="1280" height="720" tabindex="0" aria-label="Игровое поле" aria-describedby="game-instructions">
+      Для игры нужен браузер с поддержкой HTML5 Canvas и JavaScript.
+    </canvas>
+    <div id="game-hud" class="game-hud" aria-label="Состояние игры"></div>
+    <div id="game-overlay" class="game-overlay">
+      <section class="game-panel" aria-label="Загрузка игры">
+        <h1>КАРАКУРТ: Рука цела</h1>
+        <p role="status">Загрузка ночной комнаты…</p>
+      </section>
+    </div>
+    <p id="game-instructions" class="sr-only">Перемещение: WASD или стрелки. Паутина: удерживайте левую кнопку мыши или пробел. Рывок: Shift. Пауза: Escape. На сенсорном экране двигайтесь в левой зоне, направляйте паутину в правой и используйте кнопку рывка.</p>
+  </main>
+  <noscript>Включите JavaScript в настройках браузера, чтобы запустить игру.</noscript>
+</body>
+</html>

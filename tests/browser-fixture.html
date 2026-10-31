@@ -1,0 +1,11 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../src/art/styles.css"><main class="game-shell"><canvas id="game-canvas" width="1280" height="720"></canvas><div id="game-hud"></div><div id="game-overlay"></div></main><script type="module">
+import {mountGame} from '../src/client/app.js';
+window.errors=[];
+window.addEventListener('error',event=>window.errors.push(event.message));
+let callback;
+window.requestAnimationFrame=fn=>{callback=fn;return 1;};
+window.cancelAnimationFrame=()=>{};
+window.tick=ms=>callback(ms);
+window.mount=()=>mountGame({canvas:document.querySelector('canvas'),hud:document.querySelector('#game-hud'),overlay:document.querySelector('#game-overlay')});
+window.ready=true;
+</script></html>
